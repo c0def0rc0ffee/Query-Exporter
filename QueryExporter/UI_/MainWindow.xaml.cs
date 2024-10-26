@@ -20,7 +20,7 @@ namespace QueryExporter
         private FileHandler _fileHandler;
 
         /// <summary>
-        /// Initializes the main window and sets up initial configurations.
+        /// Initialises the main window and sets up initial configurations.
         /// </summary>
         public MainWindow()
         {
@@ -28,7 +28,7 @@ namespace QueryExporter
             ConnectionStringTextBox.Text = "Server=TITANIA;Database=Enterprise_Demo;User Id=222;Password=222;TrustServerCertificate=true;";
             SetPlaceholderText(QueryTextBox, "Enter SQL query here");
             ExecuteButton.IsEnabled = false; // Disable Execute button initially
-            _fileHandler = new FileHandler(); // Initialize the FileHandler instance
+            _fileHandler = new FileHandler(); // Initialise the FileHandler instance
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace QueryExporter
         }
 
         /// <summary>
-        /// Handles the Minimize button click event to minimize the application.
+        /// Handles the Minimise button click event to minimise the application.
         /// </summary>
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
@@ -151,7 +151,7 @@ namespace QueryExporter
         }
 
         /// <summary>
-        /// Handles the Maximize button click event to maximize or restore the application.
+        /// Handles the Maximise button click event to maximise or restore the application.
         /// </summary>
         private void MaximizeButton_Click(object sender, RoutedEventArgs e)
         {
@@ -166,7 +166,7 @@ namespace QueryExporter
         }
 
         /// <summary>
-        /// Handles the Browse button click event to open a folder browser dialog and set the export location.
+        /// Handles the Browse button click event to open a folder browser dialogue and set the export location.
         /// </summary>
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
@@ -217,7 +217,7 @@ namespace QueryExporter
         private void SetPlaceholderText(System.Windows.Controls.TextBox textBox, string placeholderText)
         {
             textBox.Text = placeholderText;
-            textBox.Foreground = Brushes.Gray; // Change to gray for placeholder
+            textBox.Foreground = Brushes.Gray; // Change to grey for placeholder
         }
 
         /// <summary>
