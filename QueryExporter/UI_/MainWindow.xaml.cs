@@ -10,6 +10,7 @@ using QueryExporter.BLL_; // Namespace for FileHandler
 using WinForms = System.Windows.Forms; // Alias for System.Windows.Forms
 using MessageBox = System.Windows.MessageBox;
 using System.IO;
+using OfficeOpenXml;
 
 namespace QueryExporter
 {
@@ -89,7 +90,8 @@ namespace QueryExporter
                 MessageBox.Show("No data available to export.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-
+            // Set the LicenseContext to NonCommercial to comply with EPPlus licensing requirements
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             // Use SaveFileDialog to select file format and save location
             using (var saveFileDialog = new WinForms.SaveFileDialog())
             {
