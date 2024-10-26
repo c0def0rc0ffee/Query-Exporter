@@ -9,6 +9,7 @@ using QueryExporter.DAL_; // Namespace for SQLAdapter
 using QueryExporter.BLL_; // Namespace for FileHandler
 using WinForms = System.Windows.Forms; // Alias for System.Windows.Forms
 using MessageBox = System.Windows.MessageBox;
+using System.IO;
 
 namespace QueryExporter
 {
@@ -79,31 +80,55 @@ namespace QueryExporter
         }
 
         /// <summary>
-        /// Handles the Export button click event to export the results to a CSV file.
+        /// Handles the Export button click event to export the results to a selected file format.
         /// </summary>
         private void ExportButton_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(ExportLocationTextBox.Text))
-            {
-                MessageBox.Show("Please specify an export location.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
             if (ResultsDataGrid.ItemsSource == null)
             {
                 MessageBox.Show("No data available to export.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            try
+            // Use SaveFileDialog to select file format and save location
+            using (var saveFileDialog = new WinForms.SaveFileDialog())
             {
-                var dataTable = ((DataView)ResultsDataGrid.ItemsSource).ToTable();
-                _fileHandler.ExportDataTableToCsv(dataTable, ExportLocationTextBox.Text);
-                MessageBox.Show("Data exported successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Export failed: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                saveFileDialog.Filter = "CSV Files (*.csv)|*.csv|Excel Files (*.xlsx)|*.xlsx|JSON Files (*.json)|*.json";
+                saveFileDialog.DefaultExt = "csv";
+                saveFileDialog.AddExtension = true;
+
+                if (saveFileDialog.ShowDialog() == WinForms.DialogResult.OK)
+                {
+                    try
+                    {
+                        // Determine file extension from selected file type
+                        var filePath = saveFileDialog.FileName;
+                        var dataTable = ((DataView)ResultsDataGrid.ItemsSource).ToTable();
+
+                        // Call the appropriate export method based on file extension
+                        switch (Path.GetExtension(filePath).ToLower())
+                        {
+                            case ".csv":
+                                _fileHandler.ExportDataTableToCsv(dataTable, filePath);
+                                break;
+                            case ".xlsx":
+                                _fileHandler.ExportDataTableToExcel(dataTable, filePath);
+                                break;
+                            case ".json":
+                                _fileHandler.ExportDataTableToJson(dataTable, filePath);
+                                break;
+                            default:
+                                MessageBox.Show("Unsupported file format selected.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                return;
+                        }
+
+                        MessageBox.Show("Data exported successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Export failed: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
             }
         }
 
