@@ -9,9 +9,7 @@
 - **Database Connection**: Connect to a SQL database with a configurable connection string.
 - **SQL Query Execution**: Run SQL queries and display results in a data grid view.
 - **Flexible Export Options**: Export query results to `.csv`, `.xlsx`, or `.json` formats.
-- **Duplicate Handling**: Option to overwrite or skip files when exporting.
 - **File Path Management**: Automatically appends filenames and extensions based on selected file format.
-- **Intuitive UI Controls**: User-friendly interface with customisable settings for buffer size, file location, and error handling.
 
 ---
 
