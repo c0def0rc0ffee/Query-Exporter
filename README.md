@@ -11,24 +11,6 @@
 - **Flexible Export Options**: Export query results to `.csv`, `.xlsx`, or `.json` formats.
 - **File Path Management**: Automatically appends filenames and extensions based on selected file format.
 
----
-
-## 🛠 Installation
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/yourusername/query-exporter.git
-   cd query-exporter
-
-2. **Open the Project**:
-   - Open the solution file in Visual Studio and build the project.
-
-3. **Install the Required Packages**:
-   - Add `Newtonsoft.Json` via NuGet: `dotnet add package Newtonsoft.Json`
-   - Add `ClosedXML` via NuGet: `dotnet add package ClosedXML`
-
----
-
 ## 🚀 How to Use Query Exporter
 
 1. **Set Up Database Connection**:
