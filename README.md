@@ -1,17 +1,17 @@
-# 📊 Query Exporter
+#  Query Exporter
 
 **Query Exporter** is a WPF application designed for querying SQL databases and exporting results to `.csv`, `.xlsx`, or `.json` formats. Built to simplify database interactions, making it easy to connect, execute, and export data in just a few clicks.
 
 ---
 
-## ✨ Features
+##  Features
 
 - **Database Connection**: Connect to a SQL database with a configurable connection string.
 - **SQL Query Execution**: Run SQL queries and display results in a data grid view.
 - **Flexible Export Options**: Export query results to `.csv`, `.xlsx`, or `.json` formats.
 - **File Path Management**: Automatically appends filenames and extensions based on selected file format.
 
-## 🚀 How to Use Query Exporter
+##  How to Use Query Exporter
 
 1. **Set Up Database Connection**:
    - Enter your SQL connection string in the designated text box and click **Connect** to establish a connection.
