@@ -25,7 +25,7 @@ namespace QueryExporter
         public MainWindow()
         {
             InitializeComponent();
-            ConnectionStringTextBox.Text = "Server=TITANIA;Database=Enterprise_Demo;User Id=222;Password=222;TrustServerCertificate=true;";
+            ConnectionStringTextBox.Text = "Server=ServerName;Database=DataBaseName;User Id=222;Password=222;TrustServerCertificate=true;";
             SetPlaceholderText(QueryTextBox, "Enter SQL query here");
             ExecuteButton.IsEnabled = false; // Disable Execute button initially
             _fileHandler = new FileHandler(); // Initialise the FileHandler instance
