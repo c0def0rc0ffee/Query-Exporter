@@ -113,15 +113,20 @@ namespace QueryExporter.BLL_
         {
             if (Directory.Exists(filePath))
             {
-                if (!filePath.EndsWith("\\"))
-                {
-                    filePath += "\\";
-                }
-                filePath += "export" + extension; // Use default name if only directory is given
+                filePath = Path.Combine(filePath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar), $"export{extension}");
             }
-            else if (!filePath.EndsWith(extension))
+            else
             {
-                filePath += extension; // Add extension if missing
+                if (!filePath.EndsWith(extension, StringComparison.OrdinalIgnoreCase))
+                {
+                    filePath = Path.ChangeExtension(filePath, extension);
+                }
+
+                var directory = Path.GetDirectoryName(filePath);
+                if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
             }
 
             return filePath;
