@@ -24,7 +24,8 @@ namespace QueryExporter.BLL_
                 for (int i = 0; i < dataTable.Columns.Count; i++)
                 {
                     if (i > 0) writer.Write(",");
-                    writer.Write(dataTable.Columns[i].ColumnName);
+                    var columnName = dataTable.Columns[i].ColumnName.Replace("\"", "\"\"");
+                    writer.Write($"\"{columnName}\"");
                 }
                 writer.WriteLine();
 
@@ -34,7 +35,8 @@ namespace QueryExporter.BLL_
                     for (int i = 0; i < dataTable.Columns.Count; i++)
                     {
                         if (i > 0) writer.Write(",");
-                        writer.Write(row[i].ToString());
+                        var value = row[i].ToString().Replace("\"", "\"\"");
+                        writer.Write($"\"{value}\"");
                     }
                     writer.WriteLine();
                 }
