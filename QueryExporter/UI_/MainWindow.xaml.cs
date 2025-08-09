@@ -34,7 +34,7 @@ namespace QueryExporter
         /// <summary>
         /// Handles the Connect button click event to establish a database connection.
         /// </summary>
-        private void ConnectButton_Click(object sender, RoutedEventArgs e)
+        private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
             string connectionString = ConnectionStringTextBox.Text;
             _sqlAdapter = new SQLAdapter(connectionString);
@@ -43,7 +43,7 @@ namespace QueryExporter
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    connection.Open();
+                    await connection.OpenAsync();
                     MessageBox.Show("Connection successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                     ExecuteButton.IsEnabled = true; // Enable Execute button after successful connection
                 }
@@ -58,7 +58,7 @@ namespace QueryExporter
         /// <summary>
         /// Handles the Execute button click event to execute the SQL query and display the results.
         /// </summary>
-        private void ExecuteButton_Click(object sender, RoutedEventArgs e)
+        private async void ExecuteButton_Click(object sender, RoutedEventArgs e)
         {
             string query = QueryTextBox.Text;
 
@@ -71,7 +71,7 @@ namespace QueryExporter
             try
             {
                 SqlCommand command = new SqlCommand(query);
-                DataSet dataSet = _sqlAdapter.ExecuteQuery(command);
+                DataSet dataSet = await _sqlAdapter.ExecuteQueryAsync(command);
                 ResultsDataGrid.ItemsSource = dataSet.Tables[0].DefaultView;
             }
             catch (Exception ex)
