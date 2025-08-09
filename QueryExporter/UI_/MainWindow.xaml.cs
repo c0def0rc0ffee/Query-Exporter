@@ -90,47 +90,49 @@ namespace QueryExporter
                 MessageBox.Show("No data available to export.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
+
+            var filePath = ExportLocationTextBox.Text;
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                MessageBox.Show("Please specify an export location.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var directory = Path.GetDirectoryName(filePath);
+            if (string.IsNullOrEmpty(directory) || !Directory.Exists(directory))
+            {
+                MessageBox.Show("The specified directory does not exist.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             // Set the LicenseContext to NonCommercial to comply with EPPlus licensing requirements
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            // Use SaveFileDialog to select file format and save location
-            using (var saveFileDialog = new WinForms.SaveFileDialog())
+
+            try
             {
-                saveFileDialog.Filter = "CSV Files (*.csv)|*.csv|Excel Files (*.xlsx)|*.xlsx|JSON Files (*.json)|*.json";
-                saveFileDialog.DefaultExt = "csv";
-                saveFileDialog.AddExtension = true;
+                var dataTable = ((DataView)ResultsDataGrid.ItemsSource).ToTable();
 
-                if (saveFileDialog.ShowDialog() == WinForms.DialogResult.OK)
+                switch (Path.GetExtension(filePath).ToLower())
                 {
-                    try
-                    {
-                        // Determine file extension from selected file type
-                        var filePath = saveFileDialog.FileName;
-                        var dataTable = ((DataView)ResultsDataGrid.ItemsSource).ToTable();
-
-                        // Call the appropriate export method based on file extension
-                        switch (Path.GetExtension(filePath).ToLower())
-                        {
-                            case ".csv":
-                                _fileHandler.ExportDataTableToCsv(dataTable, filePath);
-                                break;
-                            case ".xlsx":
-                                _fileHandler.ExportDataTableToExcel(dataTable, filePath);
-                                break;
-                            case ".json":
-                                _fileHandler.ExportDataTableToJson(dataTable, filePath);
-                                break;
-                            default:
-                                MessageBox.Show("Unsupported file format selected.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                                return;
-                        }
-
-                        MessageBox.Show("Data exported successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Export failed: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                    case ".csv":
+                        _fileHandler.ExportDataTableToCsv(dataTable, filePath);
+                        break;
+                    case ".xlsx":
+                        _fileHandler.ExportDataTableToExcel(dataTable, filePath);
+                        break;
+                    case ".json":
+                        _fileHandler.ExportDataTableToJson(dataTable, filePath);
+                        break;
+                    default:
+                        MessageBox.Show("Unsupported file format selected.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
                 }
+
+                MessageBox.Show("Data exported successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Export failed: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
